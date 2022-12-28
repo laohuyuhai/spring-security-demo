@@ -67,6 +67,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests(req -> req
                         //允许访问authorize url下的所有接口
                         .antMatchers("/authorize/**").permitAll()
+//                        .antMatchers("/api/**").hasAuthority("ROLE_USER")
+//                        .antMatchers("/api/**").hasAnyRole("USER")
                         .anyRequest().authenticated()
                 )
                 //添加我们自定义的过滤器，替代UsernamePasswordAuthenticationFilter

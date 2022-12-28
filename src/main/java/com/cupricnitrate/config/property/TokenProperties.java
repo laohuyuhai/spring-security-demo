@@ -41,7 +41,7 @@ public class TokenProperties {
         /**
          * 访问令牌过期时间，单位ms，默认60s
          */
-        private Long expireTime = 60 * 1000L;
+        private Long expireTime = 5 * 60 * 1000L;
 
         /**
          * 访问令牌私钥文件访问路径，比如/user/auth_key/rsa_key

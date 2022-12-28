@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api")
 public class UserResource {
 
-    @PreAuthorize("hasAuthority('api:hello')")
+    @PreAuthorize("hasAuthority('api:hello') and hasAnyRole('USER')")
     @GetMapping(value = "/hello")
     public String getHello(){
         return "Hello ";

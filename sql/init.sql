@@ -93,10 +93,10 @@ INSERT INTO `ss_user` VALUES (2, 'test', '{bcrypt}$2a$10$jhS817qUHgOR4uQSoEBRxO5
 COMMIT;
 
 -- ----------------------------
--- Table structure for ss_user_role_rel
+-- Table structure for ss_user_role
 -- ----------------------------
-DROP TABLE IF EXISTS `ss_user_role_rel`;
-CREATE TABLE `ss_user_role_rel` (
+DROP TABLE IF EXISTS `ss_user_role`;
+CREATE TABLE `ss_user_role` (
                                     `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
                                     `rid` int(11) NOT NULL COMMENT '角色表id',
                                     `uid` int(11) NOT NULL COMMENT '用户表id',
@@ -104,12 +104,12 @@ CREATE TABLE `ss_user_role_rel` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户-角色关联表';
 
 -- ----------------------------
--- Records of ss_user_role_rel
+-- Records of ss_user_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `ss_user_role_rel` VALUES (1, 1, 1);
-INSERT INTO `ss_user_role_rel` VALUES (2, 2, 1);
-INSERT INTO `ss_user_role_rel` VALUES (3, 2, 2);
+INSERT INTO `ss_user_role` VALUES (1, 1, 1);
+INSERT INTO `ss_user_role` VALUES (2, 2, 1);
+INSERT INTO `ss_user_role` VALUES (3, 2, 2);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
