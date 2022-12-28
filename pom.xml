@@ -19,10 +19,10 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
 
-        <jjwt.version>0.11.2</jjwt.version>
+        <jjwt.version>0.11.5</jjwt.version>
 
-        <mybatis.plus.version>3.4.3</mybatis.plus.version>
-        <mysql.version>8.0.25</mysql.version>
+        <mybatis.plus.version>3.5.2</mybatis.plus.version>
+        <mysql.version>8.0.30</mysql.version>
     </properties>
 
     <dependencies>

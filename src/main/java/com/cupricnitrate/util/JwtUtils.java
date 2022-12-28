@@ -143,13 +143,13 @@ public class JwtUtils {
 
     public static void main(String[] args) throws Exception {
         //生成访问令牌公钥和私钥文件
-        String keyPublicFilePath = "/Users/xiaoshengpeng/auth_key/key/rsa_key.pub";
-        String keyPrivateFilePath = "/Users/xiaoshengpeng/auth_key/key/rsa_key";
+        String keyPublicFilePath = "./auth_key/key/rsa_key.pub";
+        String keyPrivateFilePath = "./auth_key/key/rsa_key";
         //RsaUtils.generateKey(keyPublicFilePath, keyPrivateFilePath, "CupricNitrate Key Token");
 
         //生成刷新令牌公钥和私钥文件
-        String refreshPublicFilePath = "/Users/xiaoshengpeng/auth_key/refresh/rsa_key.pub";
-        String refreshPrivateFilePath = "/Users/xiaoshengpeng/auth_key/refresh/rsa_key";
+        String refreshPublicFilePath = "./auth_key/refresh/rsa_key.pub";
+        String refreshPrivateFilePath = "./auth_key/refresh/rsa_key";
         //RsaUtils.generateKey(refreshPublicFilePath, refreshPrivateFilePath, "CupricNitrate Refresh Token");
 
         //模拟加密生成token

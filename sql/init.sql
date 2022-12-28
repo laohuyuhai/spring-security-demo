@@ -8,9 +8,9 @@ DROP TABLE IF EXISTS `ss_authority`;
 CREATE TABLE `ss_authority` (
                                 `id` int(11) NOT NULL COMMENT '主键',
                                 `parent_id` int(11) DEFAULT NULL COMMENT '父权限id',
-                                `name` varchar(255) NOT NULL COMMENT '权限名称',
-                                `desc` varchar(255) DEFAULT NULL COMMENT '权限描述',
-                                `resource` varchar(255) DEFAULT NULL COMMENT '权限类型。0：菜单，1：接口',
+                                `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '权限名称',
+                                `desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '权限描述',
+                                `resource` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '权限类型。0：菜单，1：接口',
                                 `type` int(1) NOT NULL COMMENT '权限类型。0：菜单，1：组件',
                                 `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                                 PRIMARY KEY (`id`)
@@ -58,8 +58,8 @@ COMMIT;
 DROP TABLE IF EXISTS `ss_role`;
 CREATE TABLE `ss_role` (
                            `id` int(11) NOT NULL AUTO_INCREMENT,
-                           `name` varchar(255) DEFAULT NULL COMMENT '角色名',
-                           `desc` varchar(255) DEFAULT NULL COMMENT '角色描述',
+                           `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '角色名',
+                           `desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '角色描述',
                            `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                            PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色表';
@@ -78,8 +78,8 @@ COMMIT;
 DROP TABLE IF EXISTS `ss_user`;
 CREATE TABLE `ss_user` (
                            `id` int(11) NOT NULL AUTO_INCREMENT,
-                           `username` varchar(255) NOT NULL COMMENT '用户名',
-                           `password` varchar(255) NOT NULL COMMENT '密码',
+                           `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户名',
+                           `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '密码',
                            `status` int(4) DEFAULT NULL COMMENT '状态',
                            PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;

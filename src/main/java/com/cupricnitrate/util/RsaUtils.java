@@ -93,6 +93,7 @@ public class RsaUtils {
         privateKeyBytes = Base64.getEncoder().encode(privateKeyBytes);
         writeFile(privateKeyFilename, privateKeyBytes);
     }
+
     public static void generateKey(String publicKeyFilename, String privateKeyFilename, String
             secret) throws Exception {
         generateKey(publicKeyFilename,privateKeyFilename,secret,DEFAULT_KEY_SIZE);

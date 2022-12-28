@@ -53,8 +53,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private PasswordEncoder passwordEncoder;
 
-
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -117,7 +115,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return daoAuthenticationProvider;
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder(){
 
@@ -126,7 +123,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //要支持的多种编码器
         //举例：历史原因，之前用的SHA-1编码，现在我们希望新的密码使用bcrypt编码
         //老用户使用SHA-1这种老的编码格式，新用户使用bcrypt这种编码格式，登录过程无缝切换
-        Map encoders = new HashMap();
+        Map<String, PasswordEncoder> encoders = new HashMap<>();
         encoders.put(idForEncode,new BCryptPasswordEncoder());
 
         //（默认编码器id，编码器map）
