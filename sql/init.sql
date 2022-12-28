@@ -25,6 +25,7 @@ INSERT INTO `ss_authority` VALUES (101, 1, '菜单1', '菜单1', NULL, 0, '2021-
 INSERT INTO `ss_authority` VALUES (102, 1, '菜单2', '菜单2', NULL, 0, '2021-08-23 16:15:54');
 INSERT INTO `ss_authority` VALUES (10101, 101, '问好', '菜单1功能：问好', 'api:hello', 1, '2021-08-23 16:18:01');
 INSERT INTO `ss_authority` VALUES (10201, 102, '用户名', '菜单2功能：输出用户名', 'user:name', 1, '2021-08-23 17:02:08');
+INSERT INTO `ss_authority` VALUES (2, NULL, '用户角色', '用户角色', 'ROLE_USER', 2, '2021-08-23 17:02:08');
 COMMIT;
 
 -- ----------------------------
@@ -50,6 +51,7 @@ INSERT INTO `ss_authority_role_rel` VALUES (5, 10201, 1);
 INSERT INTO `ss_authority_role_rel` VALUES (6, 1, 2);
 INSERT INTO `ss_authority_role_rel` VALUES (7, 101, 2);
 INSERT INTO `ss_authority_role_rel` VALUES (8, 10101, 2);
+INSERT INTO `ss_authority_role_rel` VALUES (9, 2, 2);
 COMMIT;
 
 -- ----------------------------
