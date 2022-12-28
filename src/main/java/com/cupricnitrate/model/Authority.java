@@ -40,13 +40,13 @@ public class Authority implements GrantedAuthority {
     private String desc;
 
     /**
-     * 权限资源,当type为1时有值
+     * 权限资源
      */
     @TableField(value = "resource")
     private String authority;
 
     /**
-     * 权限类型:0 菜单；1 接口权限
+     * 权限类型:0 菜单；1 接口权限; 2 角色权限
      */
     private Integer type;
 

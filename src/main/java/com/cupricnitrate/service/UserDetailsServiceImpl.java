@@ -29,8 +29,6 @@ public class UserDetailsServiceImpl extends ServiceImpl<UserMapper, User> implem
     @Resource
     private UserRoleRelMapper userRoleRelMapper;
 
-
-
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         return baseMapper.findByUsername(s)
