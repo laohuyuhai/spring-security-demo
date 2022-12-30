@@ -21,46 +21,46 @@ import javax.annotation.Resource;
  * @date 2021/9/22
  */
 @Service
-public class UserDetailsServiceImpl extends ServiceImpl<UserMapper, User> implements UserDetailsService {
+public class UserDetailsServiceImpl extends ServiceImpl<UserMapper, User>
+        implements UserDetailsService {
 
-    @Resource
-    private PasswordEncoder passwordEncoder;
+    @Resource private PasswordEncoder passwordEncoder;
 
-    @Resource
-    private UserRoleRelMapper userRoleRelMapper;
+    @Resource private UserRoleRelMapper userRoleRelMapper;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return baseMapper.findByUsername(s)
+        return baseMapper
+                .findByUsername(s)
                 .orElseThrow(() -> new UsernameNotFoundException("未找到用户名为 " + s + "的用户"));
     }
 
     /**
      * 注册
+     *
      * @param req 请求体
      * @return 返回体
      */
     @Transactional(rollbackFor = Exception.class)
-    public boolean register(UserDto req){
-        //检查Username 是否唯一
+    public boolean register(UserDto req) {
+        // 检查Username 是否唯一
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(User::getUsername,req.getUsername());
+        queryWrapper.lambda().eq(User::getUsername, req.getUsername());
         boolean flag = baseMapper.selectCount(queryWrapper) > 0;
 
-        if(flag){
+        if (flag) {
             throw new IllegalArgumentException("用户名已存在，注册失败");
         }
 
-        //将请求体转化为实体类，保存记录
+        // 将请求体转化为实体类，保存记录
         User user = new User();
         user.setStatus(1);
         user.setUsername(req.getUsername());
         user.setPassword(passwordEncoder.encode(req.getPassword()));
-        //插入数据库，插入成功后，被 @TableId(type = IdType.AUTO) 注释的id字段，会被设置为数据库自增的id
+        // 插入数据库，插入成功后，被 @TableId(type = IdType.AUTO) 注释的id字段，会被设置为数据库自增的id
         baseMapper.insert(user);
 
-
-        //添加一个默认角色
+        // 添加一个默认角色
         UserRoleRel userRoleRel = new UserRoleRel();
         userRoleRel.setRid(2).setUid(user.getId());
         userRoleRelMapper.insert(userRoleRel);

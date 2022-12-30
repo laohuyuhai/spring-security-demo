@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 /**
  * 权限表实体类
+ *
  * @author 硝酸铜
  * @date 2021/9/22
  */
@@ -18,36 +19,23 @@ import org.springframework.security.core.GrantedAuthority;
 public class Authority implements GrantedAuthority {
     private static final long serialVersionUID = -8770868540836182134L;
 
-    /**
-     * 权限id
-     */
-    @TableId
-    private Integer id;
+    /** 权限id */
+    @TableId private Integer id;
 
-    /**
-     * 父权限id
-     */
+    /** 父权限id */
     private Integer parentId;
 
-    /**
-     * 权限名称
-     */
+    /** 权限名称 */
     private String name;
 
-    /**
-     * 权限描述
-     */
+    /** 权限描述 */
     private String desc;
 
-    /**
-     * 权限资源
-     */
+    /** 权限资源 */
     @TableField(value = "resource")
     private String authority;
 
-    /**
-     * 权限类型:0 菜单；1 接口权限; 2 角色权限
-     */
+    /** 权限类型:0 菜单；1 接口权限; 2 角色权限 */
     private Integer type;
 
     @Override

@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * 用户表
+ *
  * @author 硝酸铜
  * @date 2021/9/22
  */
@@ -30,27 +31,18 @@ public class User implements UserDetails {
     @TableId(type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * 用户名
-     */
+    /** 用户名 */
     private String username;
 
-    /**
-     * 密码
-     */
+    /** 密码 */
     private String password;
 
-    /**
-     * 状态
-     */
+    /** 状态 */
     private Integer status;
 
-    /**
-     * 角色
-     */
+    /** 角色 */
     @TableField(exist = false)
     private List<Authority> authorities = new ArrayList<>();
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

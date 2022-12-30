@@ -28,10 +28,9 @@ import java.util.Map;
 
 /**
  * `@EnableWebSecurity` 注解 deug参数为true时，开启调试模式，会有更多的debug输出
- * 启用`@EnableGlobalMethodSecurity(prePostEnabled = true)`注解后即可使用方法级安全注解
- * 方法级安全注解：
- * pre : @PreAuthorize（执行方法之前授权）  @PreFilter（执行方法之前过滤）
- * post : @PostAuthorize （执行方法之后授权） @ PostFilter（执行方法之后过滤）
+ * 启用`@EnableGlobalMethodSecurity(prePostEnabled = true)`注解后即可使用方法级安全注解 方法级安全注解： pre
+ * : @PreAuthorize（执行方法之前授权） @PreFilter（执行方法之前过滤） post : @PostAuthorize （执行方法之后授权） @
+ * PostFilter（执行方法之后过滤）
  *
  * @author 硝酸铜
  * @date 2021/9/22
@@ -41,49 +40,53 @@ import java.util.Map;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Resource
-    private TokenProperties tokenProperties;
+    @Resource private TokenProperties tokenProperties;
 
-    @Resource
-    private UserDetailsServiceImpl userDetailsService;
+    @Resource private UserDetailsServiceImpl userDetailsService;
 
-    @Resource
-    private UserDetailsPasswordSerivceImpl userDetailsPasswordSerivce;
+    @Resource private UserDetailsPasswordSerivceImpl userDetailsPasswordSerivce;
 
-    @Resource
-    private PasswordEncoder passwordEncoder;
+    @Resource private PasswordEncoder passwordEncoder;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                //禁用生成默认的登陆页面
+                // 禁用生成默认的登陆页面
                 .formLogin(AbstractHttpConfigurer::disable)
-                //关闭httpBasic，采用自定义过滤器
+                // 关闭httpBasic，采用自定义过滤器
                 .httpBasic(AbstractHttpConfigurer::disable)
-                //前后端分离架构不需要csrf保护，这里关闭
+                // 前后端分离架构不需要csrf保护，这里关闭
                 .csrf(AbstractHttpConfigurer::disable)
-                //禁用生成默认的注销页面
+                // 禁用生成默认的注销页面
                 .logout(AbstractHttpConfigurer::disable)
-                .authorizeRequests(req -> req
-                        //允许访问authorize url下的所有接口
-                        .antMatchers("/authorize/**").permitAll()
-//                        .antMatchers("/api/**").hasAuthority("ROLE_USER")
-//                        .antMatchers("/api/**").hasAnyRole("USER")
-                        .anyRequest().authenticated()
-                )
-                //添加我们自定义的过滤器，替代UsernamePasswordAuthenticationFilter
-                .addFilterAt(new JwtAuthenticationFilter(authenticationManager(),tokenProperties), UsernamePasswordAuthenticationFilter.class)
-                //添加token检验过滤器
-                .addFilter(new JwtVerifyFilter(authenticationManager(),tokenProperties))
-                //前后端分离是无状态的，不用session了，直接禁用。
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .authorizeRequests(
+                        req ->
+                                req
+                                        // 允许访问authorize url下的所有接口
+                                        .antMatchers("/authorize/**")
+                                        .permitAll()
+                                        //
+                                        // .antMatchers("/api/**").hasAuthority("ROLE_USER")
+                                        //
+                                        // .antMatchers("/api/**").hasAnyRole("USER")
+                                        .anyRequest()
+                                        .authenticated())
+                // 添加我们自定义的过滤器，替代UsernamePasswordAuthenticationFilter
+                .addFilterAt(
+                        new JwtAuthenticationFilter(authenticationManager(), tokenProperties),
+                        UsernamePasswordAuthenticationFilter.class)
+                // 添加token检验过滤器
+                .addFilter(new JwtVerifyFilter(authenticationManager(), tokenProperties))
+                // 前后端分离是无状态的，不用session了，直接禁用。
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Override
     public void configure(WebSecurity web) {
-        web
-                .ignoring()
-                .antMatchers("/error",
+        web.ignoring()
+                .antMatchers(
+                        "/error",
                         "/resources/**",
                         "/static/**",
                         "/public/**",
@@ -104,9 +107,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 配置 DaoAuthenticationProvider
+     *
      * @return DaoAuthenticationProvider
      */
-    private DaoAuthenticationProvider daoAuthenticationProvider(){
+    private DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         // 配置 AuthenticationManager 使用 userService
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
@@ -118,17 +122,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
 
-        //默认编码算法的Id,新的密码编码都会使用这个id对应的编码器
+        // 默认编码算法的Id,新的密码编码都会使用这个id对应的编码器
         String idForEncode = "bcrypt";
-        //要支持的多种编码器
-        //举例：历史原因，之前用的SHA-1编码，现在我们希望新的密码使用bcrypt编码
-        //老用户使用SHA-1这种老的编码格式，新用户使用bcrypt这种编码格式，登录过程无缝切换
+        // 要支持的多种编码器
+        // 举例：历史原因，之前用的SHA-1编码，现在我们希望新的密码使用bcrypt编码
+        // 老用户使用SHA-1这种老的编码格式，新用户使用bcrypt这种编码格式，登录过程无缝切换
         Map<String, PasswordEncoder> encoders = new HashMap<>();
-        encoders.put(idForEncode,new BCryptPasswordEncoder());
+        encoders.put(idForEncode, new BCryptPasswordEncoder());
 
-        //（默认编码器id，编码器map）
-        return new DelegatingPasswordEncoder(idForEncode,encoders);
+        // （默认编码器id，编码器map）
+        return new DelegatingPasswordEncoder(idForEncode, encoders);
     }
 }

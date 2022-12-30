@@ -17,9 +17,12 @@ import java.util.Optional;
 public interface UserMapper extends BaseMapper<User> {
     @Select("select * from ss_user where username=#{username}")
     @Results({
-            @Result(id = true, property = "id", column = "id"),
-            @Result(property = "authorities", column = "id", javaType = List.class,
-                    many = @Many(select = "com.cupricnitrate.mapper.AuthorityMapper.findByUid"))
+        @Result(id = true, property = "id", column = "id"),
+        @Result(
+                property = "authorities",
+                column = "id",
+                javaType = List.class,
+                many = @Many(select = "com.cupricnitrate.mapper.AuthorityMapper.findByUid"))
     })
     Optional<User> findByUsername(String username);
 }

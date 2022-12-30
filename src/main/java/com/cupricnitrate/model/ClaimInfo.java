@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * 荷载中的数据
+ *
  * @author 硝酸铜
  * @date 2021/9/22
  */
@@ -18,18 +19,14 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ClaimInfo {
-    /**
-     * 用户名
-     */
+    /** 用户名 */
     private String username;
 
-    /**
-     * 权限
-     */
+    /** 权限 */
     private List<ClaimAuthority> authorities;
 
     @Data
-    public static class ClaimAuthority implements GrantedAuthority{
+    public static class ClaimAuthority implements GrantedAuthority {
 
         private String authority;
 

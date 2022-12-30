@@ -63,8 +63,8 @@ public class RsaUtils {
      * @return
      * @throws Exception
      */
-    private static PrivateKey getPrivateKey(byte[] bytes) throws NoSuchAlgorithmException,
-            InvalidKeySpecException {
+    private static PrivateKey getPrivateKey(byte[] bytes)
+            throws NoSuchAlgorithmException, InvalidKeySpecException {
         bytes = Base64.getDecoder().decode(bytes);
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(bytes);
         KeyFactory factory = KeyFactory.getInstance("RSA");
@@ -74,12 +74,13 @@ public class RsaUtils {
     /**
      * 根据密文，生成rsa公钥和私钥,并写入指定文件
      *
-     * @param publicKeyFilename  公钥文件绝对路径，比如：xxx/xxx/rsa_key.pub
+     * @param publicKeyFilename 公钥文件绝对路径，比如：xxx/xxx/rsa_key.pub
      * @param privateKeyFilename 私钥文件绝对路径,比如：xxx/xxx/rsa_key
-     * @param secret             生成密钥的密文
+     * @param secret 生成密钥的密文
      */
-    public static void generateKey(String publicKeyFilename, String privateKeyFilename, String
-            secret, int keySize) throws Exception {
+    public static void generateKey(
+            String publicKeyFilename, String privateKeyFilename, String secret, int keySize)
+            throws Exception {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         SecureRandom secureRandom = new SecureRandom(secret.getBytes());
         keyPairGenerator.initialize(Math.max(keySize, DEFAULT_KEY_SIZE), secureRandom);
@@ -94,9 +95,9 @@ public class RsaUtils {
         writeFile(privateKeyFilename, privateKeyBytes);
     }
 
-    public static void generateKey(String publicKeyFilename, String privateKeyFilename, String
-            secret) throws Exception {
-        generateKey(publicKeyFilename,privateKeyFilename,secret,DEFAULT_KEY_SIZE);
+    public static void generateKey(
+            String publicKeyFilename, String privateKeyFilename, String secret) throws Exception {
+        generateKey(publicKeyFilename, privateKeyFilename, secret, DEFAULT_KEY_SIZE);
     }
 
     private static byte[] readFile(String fileName) throws Exception {
@@ -106,11 +107,11 @@ public class RsaUtils {
     private static void writeFile(String destPath, byte[] bytes) throws IOException {
         File dest = new File(destPath);
         File dir = dest.getParentFile();
-        //判断目录是否存在，不在则新建
-        if(!dir.exists()){
+        // 判断目录是否存在，不在则新建
+        if (!dir.exists()) {
             dir.mkdirs();
         }
-        //判断文件是否存在，不在则新建
+        // 判断文件是否存在，不在则新建
         if (!dest.exists()) {
             dest.createNewFile();
         }

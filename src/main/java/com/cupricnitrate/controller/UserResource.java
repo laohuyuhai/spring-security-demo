@@ -16,14 +16,13 @@ public class UserResource {
 
     @PreAuthorize("hasAuthority('api:hello') and hasAnyRole('USER')")
     @GetMapping(value = "/hello")
-    public String getHello(){
+    public String getHello() {
         return "Hello ";
     }
 
     @PreAuthorize("hasAuthority('user:name')")
     @GetMapping(value = "/users")
-    public String getCurrentUsername(){
+    public String getCurrentUsername() {
         return "Hello " + SecurityContextHolder.getContext().getAuthentication().getName();
     }
-
 }

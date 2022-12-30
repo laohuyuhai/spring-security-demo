@@ -33,18 +33,21 @@ public class JwtVerifyFilter extends BasicAuthenticationFilter {
 
     private TokenProperties tokenProperties;
 
-    public JwtVerifyFilter(AuthenticationManager authenticationManager, TokenProperties tokenProperties) {
+    public JwtVerifyFilter(
+            AuthenticationManager authenticationManager, TokenProperties tokenProperties) {
         super(authenticationManager);
         this.tokenProperties = tokenProperties;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws ServletException, IOException {
         if (checkJwtToken(request)) {
             try {
-                //获取权限失败，会抛出异常
+                // 获取权限失败，会抛出异常
                 UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
-                //获取后，将Authentication写入SecurityContextHolder中供后序使用
+                // 获取后，将Authentication写入SecurityContextHolder中供后序使用
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 chain.doFilter(request, response);
             } catch (Exception e) {
@@ -52,16 +55,16 @@ public class JwtVerifyFilter extends BasicAuthenticationFilter {
                 e.printStackTrace();
             }
         } else {
-            //token不在请求头中，则说明是匿名用户访问
+            // token不在请求头中，则说明是匿名用户访问
             List<GrantedAuthority> list = new ArrayList<>();
             GrantedAuthority grantedAuthority = () -> "ROLE_ANONYMOUS";
             list.add(grantedAuthority);
-            AnonymousAuthenticationToken authentication = new AnonymousAuthenticationToken("token-anonymousUser","anonymousUser", list);
+            AnonymousAuthenticationToken authentication =
+                    new AnonymousAuthenticationToken("token-anonymousUser", "anonymousUser", list);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             chain.doFilter(request, response);
         }
     }
-
 
     /**
      * 检查JWT Token 是否在HTTP 报头中
@@ -81,7 +84,7 @@ public class JwtVerifyFilter extends BasicAuthenticationFilter {
      */
     private void responseJson(HttpServletResponse response) {
         try {
-            //未登录提示
+            // 未登录提示
             response.setContentType("application/json;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             PrintWriter out = response.getWriter();
@@ -104,20 +107,24 @@ public class JwtVerifyFilter extends BasicAuthenticationFilter {
      */
     @SneakyThrows
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        //读取请求头中的Authorization的值
+        // 读取请求头中的Authorization的值
         String token = request.getHeader("Authorization");
         if (token != null) {
-            //Authorization 中JWT传参，默认格式 Authorization:Bearer XXX
+            // Authorization 中JWT传参，默认格式 Authorization:Bearer XXX
             token = token.replaceFirst(tokenProperties.getPrefix(), "");
-            //通过token解析出载荷信息，使用公钥进行解析
-            Payload<ClaimInfo> payload = JwtUtils.getInfoFromToken(token, RsaUtils.getPublicKey(tokenProperties.getAccess().getPublicKey()), ClaimInfo.class);
+            // 通过token解析出载荷信息，使用公钥进行解析
+            Payload<ClaimInfo> payload =
+                    JwtUtils.getInfoFromToken(
+                            token,
+                            RsaUtils.getPublicKey(tokenProperties.getAccess().getPublicKey()),
+                            ClaimInfo.class);
             ClaimInfo claimInfo = payload.getUserInfo();
-            //不为null，返回一个完全初始化的Authentication
+            // 不为null，返回一个完全初始化的Authentication
             if (claimInfo != null) {
-                return new UsernamePasswordAuthenticationToken(claimInfo.getUsername(), null, claimInfo.getAuthorities());
+                return new UsernamePasswordAuthenticationToken(
+                        claimInfo.getUsername(), null, claimInfo.getAuthorities());
             }
             return null;
-
         }
         return null;
     }

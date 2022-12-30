@@ -19,46 +19,49 @@ import java.util.Optional;
 @Service
 public class TokenService {
 
-    @Resource
-    private TokenProperties tokenProperties;
+    @Resource private TokenProperties tokenProperties;
 
     /**
      * 使用刷新token创建访问token
+     *
      * @param token 访问token
      * @param refreshToken 刷新token
      * @return 访问token
      */
-    public LoginRespDto refreshToken(String token, String refreshToken){
+    public LoginRespDto refreshToken(String token, String refreshToken) {
         LoginRespDto resp = new LoginRespDto();
-        //获取公钥和私钥
+        // 获取公钥和私钥
         PublicKey accessPublicKey = null;
         PrivateKey accessPrivateKey = null;
         PublicKey refreshPublicKey = null;
         PrivateKey refreshPrivateKey = null;
         try {
-            //访问令牌公钥
+            // 访问令牌公钥
             accessPublicKey = RsaUtils.getPublicKey(tokenProperties.getAccess().getPublicKey());
-            //访问令牌私钥
+            // 访问令牌私钥
             accessPrivateKey = RsaUtils.getPrivateKey(tokenProperties.getAccess().getPrivateKey());
-            //刷新令牌公钥
+            // 刷新令牌公钥
             refreshPublicKey = RsaUtils.getPublicKey(tokenProperties.getRefresh().getPublicKey());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        //解析刷新令牌并生成新的访问令牌
-        if(JwtUtils.validateWithoutExpiration(token,accessPublicKey) &&
-                JwtUtils.validateToken(refreshToken,refreshPublicKey)){
+        // 解析刷新令牌并生成新的访问令牌
+        if (JwtUtils.validateWithoutExpiration(token, accessPublicKey)
+                && JwtUtils.validateToken(refreshToken, refreshPublicKey)) {
             PrivateKey key = accessPrivateKey;
 
-            //生成新的访问令牌
-            String accessToken = Optional.ofNullable(JwtUtils.parserToken(refreshToken, refreshPublicKey))
-                    .map(claims ->
-                            JwtUtils.generateTokenExpire(claims.getBody(),
-                                    key,
-                                    tokenProperties.getAccess().getExpireTime(),
-                                    JwtUtils.createJTI()))
-                    .orElseThrow(() -> new AccessDeniedException("访问被拒绝"));
+            // 生成新的访问令牌
+            String accessToken =
+                    Optional.ofNullable(JwtUtils.parserToken(refreshToken, refreshPublicKey))
+                            .map(
+                                    claims ->
+                                            JwtUtils.generateTokenExpire(
+                                                    claims.getBody(),
+                                                    key,
+                                                    tokenProperties.getAccess().getExpireTime(),
+                                                    JwtUtils.createJTI()))
+                            .orElseThrow(() -> new AccessDeniedException("访问被拒绝"));
 
             resp.setAccessToken(accessToken);
         }

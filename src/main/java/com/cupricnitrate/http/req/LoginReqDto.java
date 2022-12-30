@@ -13,15 +13,9 @@ import java.io.Serializable;
 public class LoginReqDto implements Serializable {
     private static final long serialVersionUID = -6412703242022146246L;
 
-    /**
-     * 账号
-     */
-    @NotBlank
-    private String username;
+    /** 账号 */
+    @NotBlank private String username;
 
-    /**
-     * 密码
-     */
-    @NotBlank
-    private String password;
+    /** 密码 */
+    @NotBlank private String password;
 }

@@ -14,17 +14,19 @@ public interface AuthorityMapper extends BaseMapper<Authority> {
 
     /**
      * 根据 用户id 查询权限
+     *
      * @param uid
      * @return
      */
-    @Select("SELECT a.*, a.resource as 'authority'\n" +
-            "FROM ss_user u LEFT JOIN ss_user_role ur ON u.id = ur.uid\n" +
-            "LEFT JOIN ss_role r ON ur.rid = r.id\n" +
-            "LEFT JOIN ss_authority_role_rel ar ON r.id = ar.role_id\n" +
-            "LEFT JOIN ss_authority a ON ar.authority_id = a.id\n" +
-            "WHERE\n" +
-            "u.id = #{uid}\n" +
-            "and a.type in (1,2)\n" +
-            "GROUP BY a.id")
+    @Select(
+            "SELECT a.*, a.resource as 'authority'\n"
+                    + "FROM ss_user u LEFT JOIN ss_user_role ur ON u.id = ur.uid\n"
+                    + "LEFT JOIN ss_role r ON ur.rid = r.id\n"
+                    + "LEFT JOIN ss_authority_role_rel ar ON r.id = ar.role_id\n"
+                    + "LEFT JOIN ss_authority a ON ar.authority_id = a.id\n"
+                    + "WHERE\n"
+                    + "u.id = #{uid}\n"
+                    + "and a.type in (1,2)\n"
+                    + "GROUP BY a.id")
     List<Authority> findByUid(Integer uid);
 }

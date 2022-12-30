@@ -20,9 +20,7 @@ public class UserDto implements Serializable {
     @Size(min = 4, max = 50, message = "用户名长度必须在4到50个字符之间")
     private String username;
 
-    @NotNull
-    private String password;
+    @NotNull private String password;
 
     private String matchingPassword;
-
 }

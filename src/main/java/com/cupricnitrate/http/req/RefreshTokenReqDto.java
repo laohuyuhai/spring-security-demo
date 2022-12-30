@@ -13,9 +13,6 @@ import java.io.Serializable;
 public class RefreshTokenReqDto implements Serializable {
     private static final long serialVersionUID = 8410311036049755024L;
 
-    /**
-     * 刷新令牌
-     */
-    @NotBlank
-    private String refreshToken;
+    /** 刷新令牌 */
+    @NotBlank private String refreshToken;
 }
