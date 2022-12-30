@@ -125,6 +125,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
 
         // 默认编码算法的Id,新的密码编码都会使用这个id对应的编码器
+        // 这个默认编码算法的设置是很重要的，它是默认要升级到的编码算法，当需要进行算法升级的时候，会比较当前的编码跟这个是否一样，如果不一样，则会将密码升级到该算法
+        // 具体的升级流程可以参考源码
         String idForEncode = "bcrypt";
         // 要支持的多种编码器
         // 举例：历史原因，之前用的SHA-1编码，现在我们希望新的密码使用bcrypt编码
